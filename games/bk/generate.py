@@ -177,6 +177,8 @@ def register_hooks():
 def build_entries(spec):
     register_hooks()
     meta, blob, facts = load_spec(spec)
+    from games.bk import logos
+    logos.FACTS = facts
     es = []
     for m in meta:
         if m["off"] is None:
