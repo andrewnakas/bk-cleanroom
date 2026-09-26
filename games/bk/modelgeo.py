@@ -37,7 +37,12 @@ def tris_by_texture(d, all_tris=None):
     offs = {}
     for i in range(cnt):
         o = tl + 8 + 16 * i
-        offs.setdefault(struct.unpack_from(">I", d, o)[0], i)
+        off, typ = struct.unpack_from(">IH", d, o)
+        offs.setdefault(off, i)
+        if typ & 1:
+            offs.setdefault(off + 0x20, i)      # CI4: pixels follow the 16-colour palette
+        if typ & 2:
+            offs.setdefault(off + 0x200, i)     # CI8
     vbase = vtx + 0x18
     gbase = gfx + 8
     ncmd = struct.unpack_from(">I", d, gfx)[0]
