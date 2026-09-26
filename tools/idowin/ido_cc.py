@@ -35,7 +35,7 @@ def parse(argv):
     i = 0
     while i < len(argv):
         a = argv[i]
-        if a == "-c" or a == "-non_shared" or a == "-32":
+        if a in ("-c", "-non_shared", "-32", "-o32", "-KPIC"):
             pass
         elif a == "-G":
             i += 1
