@@ -36,7 +36,9 @@
 ## Done since publishing (2026-09-26 afternoon)
 - Readable text: both sprite fonts re-typeset (Lilita One / Luckiest Guy, fitted to each glyph's advance width); title sign, copyright line, GAME OVER, THE END, PRESS START re-lettered in model space and baked into their tiles (`modelgeo.py`, `project.py`, `logos.py`).
 - Faces: eye briefs for Banjo, Kazooie, the transformations, Tooty, Bottles, Jinjos, Klungo, Cheato, Grunty, Mumbo (`faces.py`).
-- Pictures: 43 dialog portraits rendered from the characters' own models with our textures (`portraits.py`); 20 item/object portraits keep the colour grid (their colours come from combiner prim/env colours, not rendered yet).
+- Pictures: 53 dialog portraits rendered from the characters' and objects' own models with our textures (`portraits.py`); 10 (Jiggy, bullion, feathers, egg pillow, a few bad name matches) keep the colour grid: their colours come from combiner prim/env colours, which the renderer does not model yet.
+- Signs: level entry signs (9 worlds), ON VACATION, R.I.P., SKI-1000, Mumbo token numbers, the boot "RARE/WARE" plate.
+- CI textures are bound at palette+pixels offset in display lists (`modelgeo.py`); needed for faces/portraits.
 - Sprites: colour grids are alpha-weighted (brighter, correct HUD icon colours); I4/I8 sprites keep a 2-bit intensity outline (their shape).
 - Voices: 96 placeholder lines (Piper TTS, pitched per character, fitted to the slot) for Banjo, Kazooie, Mumbo, Grunty, Bottles, Tooty, Jinjos, Cheato, Brentilda, Vile (`voices.py`, WAVs in `games/bk/voices`). Practice pack: `D:/n64work/bk/practice` (never publish).
 
@@ -44,7 +46,11 @@
 1. Object portraits and item pictures with combiner colours (render prim/env colours).
 2. Other text-bearing textures (R.I.P., ON VACATION, SKI-1000, note-door numbers, BK signs, level entry signs 0x563).
 3. Mumbo token face, Jiggy picture, Rare intro logo (0x3A7).
-4. A native gameplay check further into Spiral Mountain (scripted input did not move Banjo out of the exit cutscene yet).
+4. Gameplay verified natively: holding the stick walks Banjo (play5.script: the script plugin counts controller polls, not frames).
+
+## Browser testing notes
+- Headless Edge: EmulatorJS pauses pages it thinks are hidden; `ports/ejs/cdp_shot.py` now pins visibility/focus. Speed in headless varies with GPU load from other sessions; the page is fine in a normal browser window.
+- GitHub Pages legacy builds failed on a long gh-pages history of 16 MB ROMs: `tools/publish.sh` now pushes one orphan commit per deploy and requests a build.
 
 ## For the morning
 - Play https://andrewnakas.github.io/bk-cleanroom/ in a real browser (Chrome/Edge). Keys: arrows, X jump, C attack, Z crouch, Enter start.
