@@ -159,9 +159,10 @@ def load_spec(spec):
 
 def register_hooks():
     if not HOOKS:
-        from games.bk import faces, logos, text
+        from games.bk import faces, logos, portraits, text
         HOOKS.append(text.hook)
         HOOKS.append(faces.hook)
+        HOOKS.append(portraits.hook)
         MODEL_HOOKS.append(logos.sign_textures)
 
 
@@ -176,6 +177,8 @@ def build_entries(spec):
         d = bytearray(blob[m["off"]:m["off"] + m["len"]])
         if m["kind"] == "model":
             gen_model(m["uid"], d, facts)
+            from games.bk import portraits
+            portraits.CLEAN_MODELS[m["uid"]] = bytes(d)
         elif m["kind"] == "sprite":
             gen_sprite(m["uid"], d, facts)
         es.append(A.Entry(m["uid"], m["seg"], bool(m["c"]), m["flags"], bytes(d)))

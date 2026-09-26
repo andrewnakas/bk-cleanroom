@@ -6,7 +6,8 @@ Segments: 1 = vertices, 2 = texture data, 3 = this display list. F3DEX: G_VTX 0x
 (v0*2 in bits 16..23, n in bits 10..15), G_TRI1 0xBF, G_TRI2 0xB1, G_DL 0x06, G_ENDDL 0xB8,
 G_SETTIMG 0xFD, G_SETTILESIZE 0xF2 (for the texture's size in UV units).
 
-    tris_by_texture(model_bytes) -> {texture index: [((x,y,z)*3, (s,t)*3), ...]}
+    tris_by_texture(model_bytes, all_tris=None) -> {texture index: [((x,y,z)*3, (s,t)*3), ...]}
+        all_tris (a list) also receives every triangle: (pos*3, st*3, rgba*3, texture index or None)
 s,t are in texels (the Vtx's 10.5 fixed point / 32, times the G_TEXTURE scale).
 """
 import struct
@@ -19,7 +20,11 @@ def _vtx(d, base, i):
     return (x, y, z), (s / 32.0, t / 32.0)
 
 
-def tris_by_texture(d):
+def _vcol(d, base, i):
+    return tuple(d[base + 16 * i + 12:base + 16 * i + 16])
+
+
+def tris_by_texture(d, all_tris=None):
     if len(d) < 0x38 or struct.unpack_from(">I", d, 0)[0] != 0xB:
         return {}
     gfx = struct.unpack_from(">i", d, 0xC)[0]
@@ -40,6 +45,7 @@ def tris_by_texture(d):
     cache = [None] * 64
     cur = [None]
     scale = [1.0, 1.0]
+    textured = [False]
 
     def run(pc, depth=0):
         while 0 <= pc < ncmd * 8 and gbase + pc + 8 <= len(d):
@@ -53,29 +59,43 @@ def tris_by_texture(d):
                 for k in range(n):
                     if v0 + k < 64 and vbase + 16 * (a + k) + 16 <= len(d):
                         p, (s_, t_) = _vtx(d, vbase, a + k)
-                        cache[v0 + k] = (p, (s_ * scale[0], t_ * scale[1]))
+                        cache[v0 + k] = (p, (s_ * scale[0], t_ * scale[1]), _vcol(d, vbase, a + k))
             elif op in (0xBF, 0xB1):
                 ids = [((w1 >> 16) & 0xFF) // 2, ((w1 >> 8) & 0xFF) // 2, (w1 & 0xFF) // 2] if op == 0xBF else \
                     [((w0 >> 16) & 0xFF) // 2, ((w0 >> 8) & 0xFF) // 2, (w0 & 0xFF) // 2,
                      ((w1 >> 16) & 0xFF) // 2, ((w1 >> 8) & 0xFF) // 2, (w1 & 0xFF) // 2]
-                if cur[0] is not None:
+                if True:
                     for j in range(0, len(ids), 3):
                         vs = [cache[i] for i in ids[j:j + 3]]
                         if all(vs):
-                            out.setdefault(cur[0], []).append(([v[0] for v in vs], [v[1] for v in vs]))
-            elif op == 0xBB:                      # G_TEXTURE: s/t scale (0xFFFF ~ 1.0)
+                            if cur[0] is not None:
+                                out.setdefault(cur[0], []).append(([v[0] for v in vs], [v[1] for v in vs]))
+                            if all_tris is not None:
+                                all_tris.append(([v[0] for v in vs], [v[1] for v in vs], [v[2] for v in vs],
+                                                 cur[0] if textured[0] else None))
+            elif op == 0xBB:                      # G_TEXTURE: s/t scale (0xFFFF ~ 1.0), on/off
                 scale[0] = max(1, w1 >> 16) / 65536.0
                 scale[1] = max(1, w1 & 0xFFFF) / 65536.0
+                textured[0] = bool(w0 & 0xFF)
             elif op == 0xFD:
                 seg, off = w1 >> 24, w1 & 0xFFFFFF
                 cur[0] = offs.get(off) if seg == 2 else None
             elif op == 0x06:
-                if (w1 >> 24) == 3 and depth < 8:
-                    run(w1 & 0xFFFFFF, depth + 1)
                 if (w0 >> 16) & 0xFF == 1:        # branch (no return)
                     return
             elif op == 0xB8:
                 return
 
-    run(0)
+    # the display list is a set of chunks called from the model's geo list: walk them all in order
+    run_all(run, ncmd, gbase, d)
     return out
+
+
+def run_all(run, ncmd, gbase, d):
+    pc = 0
+    while pc < ncmd * 8:
+        run(pc)
+        # continue after the next ENDDL
+        while pc < ncmd * 8 and struct.unpack_from(">I", d, gbase + pc)[0] >> 24 != 0xB8:
+            pc += 8
+        pc += 8
