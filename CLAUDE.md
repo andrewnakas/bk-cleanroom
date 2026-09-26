@@ -21,7 +21,7 @@ A playable **web build** of Banjo-Kazooie, built from the community decomp, wher
 
 ## Where things are
 - This folder: your repo. `cleanroom/` shared library (copy; extend freely here), `ports/`, `tools/`, `docs/DECOMP_PLAYBOOK.md` (**read first**, it is the checklist of traps), `docs/HARNESS.md` (PW64 lessons), `reference/sm64/` (the finished SM64 game module to copy patterns from: generate.py, drawn.py, facepaint briefs, paintings.py, level_render.py, voices).
-- Work dirs: `C:/Users/andre/n64work/bk/` (pristine, dirty, clean, build). **E: is nearly full**: build on C:. emsdk: `E:/n64web/emsdk` (EM_CACHE=E:/n64web/emcache).
+- Work dirs: `D:/n64work/bk/` (pristine, dirty, clean, build). Build on D: (39 GB free, shared by 7 sessions); C: and E: are full. emsdk: `E:/n64web/emsdk` (EM_CACHE=E:/n64web/emcache).
 - Toolchain: `tools/setup_winbin.sh` (zig cc as gcc, clang as `as`, llvm-objcopy, hexdump, python3, make). IDO 5.3 native: `C:/Users/andre/n64work/idowin` (see PW64 `tools/idowin`); IDO 7.1 if needed from ido-static-recomp releases (Windows builds). Zig: `~/.local/zig-x86_64-windows-0.16.0`, LLVM: `~/.local/clang+llvm-23.1.2-x86_64-pc-windows-msvc`.
 - Python 3.12 with numpy, scipy, librosa, pyworld, piper-tts (voices: `C:/Users/andre/n64work/piper_voices`), faster-whisper, av, websocket-client.
 - Browser checks: `python ports/wasm/serve.py <site> <port>` + `python ports/wasm/headless_shot.py <out> --base http://localhost:<port>/index.html --secs 5,10 --query "keys=..." --webgl`; hangs: `ports/wasm/cdp_stack.py`. Page template with dev hooks: `ports/web/shell.html`.
@@ -35,3 +35,7 @@ A playable **web build** of Banjo-Kazooie, built from the community decomp, wher
 ## ROM / decomp
 - ROM: C:/Users/andre/Downloads/Banjo-Kazooie (USA) (Rev 1).zip (unzip first; Rev 1 = us.v11)
 - Decomp: https://github.com/n64decomp/banjo-kazooie (mirror of gitlab.com/banjo.decomp/banjo-kazooie)
+
+## Disk budget (shared machine, disk is nearly full)
+- Seven sessions share D: (39 GB free). Keep this game under **~5 GB**: `git clone --depth 1`, no duplicate trees (dirty -> spec, then delete the dirty extracted tree's build/ dirs; keep one clean tree), `make clean` of stale build variants, no dev A/B copies unless needed and delete after.
+- Before any big step run `df -h /d`. If free space is under 8 GB, stop heavy work, write "blocked on disk" in STATUS.md and do only light work (briefs, labels, docs) until space appears.
