@@ -4,7 +4,7 @@ Used by the dirty-room spec step (to take coarse facts) and by the clean generat
 those regions with generated pixels of the same format and size). Everything outside the
 regions (headers, geometry, display lists, vertices, collision) is kept as-is.
 
-Model texture list (at header.texture_list_offset): s32 data size, s16 count, u16 pad, count x
+Model texture list (at header.texture_list_offset): s32 size (from the list start), s16 count, u16 pad, count x
 16-byte infos {s32 offset, s16 type, u8 pad[2], u8 w, u8 h, pad[6]}, then the data. type bits:
 1 CI4, 2 CI8, 4 RGBA16, 8 RGBA32 (upper bits: flags). CI textures start with their palette
 (0x20 / 0x200 bytes). A texture's region runs to the next texture (mipmaps included).
@@ -50,7 +50,7 @@ def model_textures(d):
         o = tl + 8 + 16 * i
         infos.append((_u32(d, o), _u16(d, o + 4), d[o + 8], d[o + 9]))
     out = []
-    offs = sorted(set(x[0] for x in infos)) + [size]
+    offs = sorted(set(x[0] for x in infos)) + [size - 8 - 16 * cnt]   # size counts from the list header
     for i, (off, typ, w, h) in enumerate(infos):
         fs = MODEL_TYPES.get(typ & 0xF)
         if fs is None or w == 0 or h == 0:
