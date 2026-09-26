@@ -7,7 +7,8 @@ Segments: 1 = vertices, 2 = texture data, 3 = this display list. F3DEX: G_VTX 0x
 G_SETTIMG 0xFD, G_SETTILESIZE 0xF2 (for the texture's size in UV units).
 
     tris_by_texture(model_bytes, all_tris=None) -> {texture index: [((x,y,z)*3, (s,t)*3), ...]}
-        all_tris (a list) also receives every triangle: (pos*3, st*3, rgba*3, texture index or None)
+        all_tris (a list) also receives every triangle: (pos*3, st*3, rgba*3, texture index or None, lit)
+        lit: G_LIGHTING was on, so the rgba bytes are a signed normal
 s,t are in texels (the Vtx's 10.5 fixed point / 32, times the G_TEXTURE scale).
 """
 import struct
@@ -50,7 +51,8 @@ def tris_by_texture(d, all_tris=None):
     cache = [None] * 64
     cur = [None]
     scale = [1.0, 1.0]
-    textured = [False]
+    textured = [True]
+    lit = [False]      # the game enables texturing before drawing; only an explicit G_TEXTURE off disables it
 
     def run(pc, depth=0):
         while 0 <= pc < ncmd * 8 and gbase + pc + 8 <= len(d):
@@ -77,7 +79,11 @@ def tris_by_texture(d, all_tris=None):
                                 out.setdefault(cur[0], []).append(([v[0] for v in vs], [v[1] for v in vs]))
                             if all_tris is not None:
                                 all_tris.append(([v[0] for v in vs], [v[1] for v in vs], [v[2] for v in vs],
-                                                 cur[0] if textured[0] else None))
+                                                 cur[0] if textured[0] else None, lit[0]))
+            elif op == 0xB7 and w1 & 0x20000:     # G_SETGEOMETRYMODE: G_LIGHTING (vertex rgba = normals)
+                lit[0] = True
+            elif op == 0xB6 and w1 & 0x20000:
+                lit[0] = False
             elif op == 0xBB:                      # G_TEXTURE: s/t scale (0xFFFF ~ 1.0), on/off
                 scale[0] = max(1, w1 >> 16) / 65536.0
                 scale[1] = max(1, w1 & 0xFFFF) / 65536.0

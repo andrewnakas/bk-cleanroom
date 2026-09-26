@@ -122,7 +122,15 @@ def render3d(d, tex, size=64, view="front", crop=None, bg=(0, 0, 0, 0)):
     img[:] = bg
     zb = np.full((N, N), -1e18)
     gy, gx = np.mgrid[0:N, 0:N]
-    for k, (pos, st, col, ti) in enumerate(tris):
+    L = np.array([-0.35, 0.55, 0.76])
+    for k, (pos, st, col, ti, lit) in enumerate(tris):
+        if lit:                                  # rgba holds a signed normal: simple lambert shading
+            nrm = np.array([[((c[j] + 128) % 256) - 128 for j in range(3)] for c in col], np.float64)
+            nrm /= np.maximum(np.linalg.norm(nrm, axis=1, keepdims=True), 1)
+            if view != "front":
+                nrm[:, [0, 2]] *= -1
+            sh = 0.5 + 0.6 * np.clip(nrm @ L, 0, 1)
+            col = [(255 * v, 255 * v, 255 * v, 255) for v in sh]
         sx = (X[k] - mx) / span * N + N / 2
         sy = N / 2 - (Y[k] - my) / span * N
         bx0, bx1 = int(max(0, np.floor(sx.min()))), int(min(N - 1, np.ceil(sx.max())))
