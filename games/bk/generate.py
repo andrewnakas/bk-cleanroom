@@ -165,13 +165,29 @@ def load_spec(spec):
     return meta, blob, facts
 
 
+SPEC = []
+
+
+def clean_model(uid):
+    """A model's clean bytes (textures generated), from the portrait cache or generated now."""
+    from games.bk import portraits
+    if uid not in portraits.CLEAN_MODELS:
+        meta, blob, facts = SPEC
+        m = next(x for x in meta if x["uid"] == uid)
+        d = bytearray(blob[m["off"]:m["off"] + m["len"]])
+        gen_model(uid, d, facts)
+        portraits.CLEAN_MODELS[uid] = bytes(d)
+    return portraits.CLEAN_MODELS[uid]
+
+
 def register_hooks():
     if not HOOKS:
-        from games.bk import faces, logos, portraits, text
+        from games.bk import faces, logos, paintings, portraits, text
         HOOKS.append(text.hook)
         HOOKS.append(faces.hook)
         HOOKS.append(portraits.hook)
         MODEL_HOOKS.append(logos.sign_textures)
+        MODEL_HOOKS.append(paintings.hook)
 
 
 def build_entries(spec):
@@ -179,6 +195,7 @@ def build_entries(spec):
     meta, blob, facts = load_spec(spec)
     from games.bk import logos
     logos.FACTS = facts
+    SPEC[:] = [meta, blob, facts]
     es = []
     for m in meta:
         if m["off"] is None:
