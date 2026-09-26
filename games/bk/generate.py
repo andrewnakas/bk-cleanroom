@@ -79,7 +79,7 @@ def pixels(key, fact):
     for hook in HOOKS:
         r = hook(key, fact, rgba)
         if r is not None:
-            return np.asarray(r, np.uint8)
+            return r if isinstance(r, dict) else np.asarray(r, np.uint8)
     return dither(key, rgba)
 
 
@@ -109,25 +109,33 @@ def gen_sprite(uid, d, facts):
         fact = facts.get(key)
         if fact is None:
             continue
+        single = len(fr) == 1
+        fact = dict(fact, rects=[(0, 0, r["w"], r["h"]) if single else (r["x"], r["y"], r["w"], r["h"]) for r in fr])
         img = pixels(key, fact)
         fmt, siz = fr[0]["fmt"], fr[0]["siz"]
-        pal_rgba = None
+        if isinstance(img, dict):                  # per-chunk images (fonts: one glyph per chunk)
+            cells = [np.asarray(c, np.uint8) for c in img["chunks"]]
+        else:
+            fh, fw = img.shape[:2]
+            cells = []
+            for (x0, y0, w, h) in fact["rects"]:
+                ys = np.clip(np.arange(y0, y0 + h), 0, fh - 1)
+                xs = np.clip(np.arange(x0, x0 + w), 0, fw - 1)
+                cells.append(img[ys][:, xs])
         if fmt == T.CI:
-            idx, pal_rgba = quantize(img, 16 if siz == T.B4 else 256)
+            strip = np.concatenate([c.reshape(-1, 4) for c in cells])[None]
+            idx, pal_rgba = quantize(strip, 16 if siz == T.B4 else 256)
             a, n = fr[0]["pal"]
             d[a:a + n] = T.encode(pal_rgba[None], T.RGBA, T.B16)
-        single = len(fr) == 1
-        for r in fr:
-            x0, y0 = (0, 0) if single else (r["x"], r["y"])
-            w, h = r["w"], r["h"]
-            fh, fw = img.shape[:2]
-            ys = np.clip(np.arange(y0, y0 + h), 0, fh - 1)
-            xs = np.clip(np.arange(x0, x0 + w), 0, fw - 1)
+            flat, o = idx[0], 0
+        for r, c in zip(fr, cells):
+            h, w = r["h"], r["w"]
             if fmt == T.CI:
-                sub = idx[ys][:, xs]
+                sub = flat[o:o + w * h].reshape(h, w)
+                o += w * h
                 b = T.encode(np.dstack([sub] * 4), T.CI, siz)
             else:
-                b = T.encode(img[ys][:, xs], fmt, siz)
+                b = T.encode(c, fmt, siz)
             a, n = r["pix"]
             d[a:a + n] = b[:n]
 
@@ -141,7 +149,14 @@ def load_spec(spec):
     return meta, blob, facts
 
 
+def register_hooks():
+    if not HOOKS:
+        from games.bk import text
+        HOOKS.append(text.hook)
+
+
 def build_entries(spec):
+    register_hooks()
     meta, blob, facts = load_spec(spec)
     es = []
     for m in meta:
