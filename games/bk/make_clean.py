@@ -52,7 +52,8 @@ def main(argv):
     print(f"assets: {sum(e.data is not None for e in out)} ({time.time() - t:.0f}s)")
     if "--skip-audio" not in argv or not os.path.exists(os.path.join(clean, "bin/soundfont1tbl.bin")):
         for n in (1, 2):
-            ctl, tbl = audio.build(spec, n)
+            from games.bk import voices
+            ctl, tbl = audio.build(spec, n, overrides=voices.override)
             open(os.path.join(clean, f"bin/soundfont{n}ctl.bin"), "wb").write(ctl)
             open(os.path.join(clean, f"bin/soundfont{n}tbl.bin"), "wb").write(tbl)
         print(f"audio: done ({time.time() - t:.0f}s)")

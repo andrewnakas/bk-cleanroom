@@ -1,0 +1,674 @@
+{
+ "1": {
+  "who": "MUMBO",
+  "name": "MUMBO_UMENAKA",
+  "text": "umenaka",
+  "base": 2112,
+  "frames": 5104
+ },
+ "4": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_RUUUUUH",
+  "text": "ruuh",
+  "base": 12792,
+  "frames": 7664
+ },
+ "23": {
+  "who": "JINJO",
+  "name": "JINJO_WHISTLE",
+  "text": "whistle",
+  "base": 89200,
+  "frames": 5008
+ },
+ "39": {
+  "who": "JINJO",
+  "name": "JINJO_HI",
+  "text": "hi",
+  "base": 152256,
+  "frames": 2896
+ },
+ "49": {
+  "who": "BANJO",
+  "name": "BANJO_OHHWAAOOO",
+  "text": "ohhwaaoo",
+  "base": 180184,
+  "frames": 13744
+ },
+ "50": {
+  "who": "BANJO",
+  "name": "BANJO_EGHEE",
+  "text": "eghee",
+  "base": 187920,
+  "frames": 5696
+ },
+ "51": {
+  "who": "BANJO",
+  "name": "BANJO_AHOO",
+  "text": "ahoo",
+  "base": 191128,
+  "frames": 7232
+ },
+ "52": {
+  "who": "BANJO",
+  "name": "BANJO_AGHOAA",
+  "text": "aghoaa",
+  "base": 195200,
+  "frames": 7984
+ },
+ "53": {
+  "who": "BANJO",
+  "name": "BANJO_WOAH",
+  "text": "woah",
+  "base": 199696,
+  "frames": 6144
+ },
+ "54": {
+  "who": "BANJO",
+  "name": "BANJO_DOH",
+  "text": "doh",
+  "base": 203152,
+  "frames": 5824
+ },
+ "55": {
+  "who": "BANJO",
+  "name": "BANJO_OHWW",
+  "text": "ohww",
+  "base": 206432,
+  "frames": 6048
+ },
+ "56": {
+  "who": "BANJO",
+  "name": "BANJO_AYE_1",
+  "text": "aye",
+  "base": 209840,
+  "frames": 7504
+ },
+ "57": {
+  "who": "BANJO",
+  "name": "BANJO_AYE_2",
+  "text": "aye",
+  "base": 214064,
+  "frames": 5072
+ },
+ "58": {
+  "who": "BANJO",
+  "name": "BANJO_HOUW",
+  "text": "houw",
+  "base": 216920,
+  "frames": 4624
+ },
+ "59": {
+  "who": "BANJO",
+  "name": "BANJO_GAAH",
+  "text": "gaah",
+  "base": 219528,
+  "frames": 3136
+ },
+ "65": {
+  "who": "MUMBO",
+  "name": "MUMBO_ERGHHH",
+  "text": "erghh",
+  "base": 227248,
+  "frames": 5680
+ },
+ "66": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_RAH",
+  "text": "rah",
+  "base": 230448,
+  "frames": 2864
+ },
+ "67": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_RUH",
+  "text": "ruh",
+  "base": 232064,
+  "frames": 5760
+ },
+ "68": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_AUW",
+  "text": "auw",
+  "base": 235304,
+  "frames": 4128
+ },
+ "69": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_HUGHH",
+  "text": "hughh",
+  "base": 237632,
+  "frames": 9584
+ },
+ "70": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_CHOKING_UP",
+  "text": "choking up",
+  "base": 243024,
+  "frames": 4496
+ },
+ "71": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_HEUGH",
+  "text": "heugh",
+  "base": 245560,
+  "frames": 2480
+ },
+ "72": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_RUUH",
+  "text": "ruuh",
+  "base": 246960,
+  "frames": 8528
+ },
+ "73": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_RA",
+  "text": "ra",
+  "base": 251760,
+  "frames": 1776
+ },
+ "78": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_BRUIII",
+  "text": "bruii",
+  "base": 259544,
+  "frames": 12816
+ },
+ "79": {
+  "who": "BANJO",
+  "name": "BANJO_WAHOO",
+  "text": "wahoo",
+  "base": 266760,
+  "frames": 12832
+ },
+ "80": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_RRRUH",
+  "text": "rruh",
+  "base": 273984,
+  "frames": 14944
+ },
+ "82": {
+  "who": "BANJO",
+  "name": "BANJO_YAH_OH",
+  "text": "yah oh",
+  "base": 283136,
+  "frames": 9408
+ },
+ "83": {
+  "who": "BANJO",
+  "name": "BANJO_HUIII",
+  "text": "huii",
+  "base": 288432,
+  "frames": 11648
+ },
+ "84": {
+  "who": "BANJO",
+  "name": "BANJO_HOO_1",
+  "text": "hoo",
+  "base": 294984,
+  "frames": 6816
+ },
+ "85": {
+  "who": "BANJO",
+  "name": "BANJO_HOO_2",
+  "text": "hoo",
+  "base": 298824,
+  "frames": 6448
+ },
+ "86": {
+  "who": "BANJO",
+  "name": "BANJO_HUI",
+  "text": "hui",
+  "base": 302456,
+  "frames": 7792
+ },
+ "87": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_HEGH",
+  "text": "hegh",
+  "base": 306840,
+  "frames": 4448
+ },
+ "93": {
+  "who": "BANJO",
+  "name": "BANJO_RAAOWW",
+  "text": "raaoww",
+  "base": 313248,
+  "frames": 8640
+ },
+ "94": {
+  "who": "BANJO",
+  "name": "BANJO_PHEWWW",
+  "text": "pheww",
+  "base": 318112,
+  "frames": 8288
+ },
+ "95": {
+  "who": "MUMBO",
+  "name": "MUMBO_BUGABUGOW_MUFFLED",
+  "text": "bugabugow muffled",
+  "base": 322776,
+  "frames": 5536
+ },
+ "98": {
+  "who": "BANJO",
+  "name": "BANJO_ERGHH",
+  "text": "erghh",
+  "base": 332080,
+  "frames": 6864
+ },
+ "99": {
+  "who": "BANJO",
+  "name": "BANJO_UWAAAAOOH",
+  "text": "uwaaooh",
+  "base": 335944,
+  "frames": 23792
+ },
+ "110": {
+  "who": "VILE",
+  "name": "VILE_EGH",
+  "text": "egh",
+  "base": 374352,
+  "frames": 2544
+ },
+ "111": {
+  "who": "BANJO",
+  "name": "BANJO_HEADSCRATCH",
+  "text": "headscratch",
+  "base": 375784,
+  "frames": 2640
+ },
+ "139": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_RAWW",
+  "text": "raww",
+  "base": 421312,
+  "frames": 2880
+ },
+ "149": {
+  "who": "BANJO",
+  "name": "BANJO_TALKING",
+  "text": "oh eh",
+  "base": 452488,
+  "frames": 4368
+ },
+ "161": {
+  "who": "BANJO",
+  "name": "BANJO_COUGHING",
+  "text": "coughing",
+  "base": 470848,
+  "frames": 4224
+ },
+ "162": {
+  "who": "BANJO",
+  "name": "BANJO_AHOOA",
+  "text": "ahooa",
+  "base": 473224,
+  "frames": 5696
+ },
+ "163": {
+  "who": "BANJO",
+  "name": "BANJO_DOUBLE_COUGH",
+  "text": "double cough",
+  "base": 470848,
+  "frames": 4224
+ },
+ "164": {
+  "who": "BANJO",
+  "name": "BANJO_SINGLE_COUGH",
+  "text": "single cough",
+  "base": 470848,
+  "frames": 4224
+ },
+ "175": {
+  "who": "BANJO",
+  "name": "BANJO_CATCHING_BREATH",
+  "text": "catching breath",
+  "base": 500616,
+  "frames": 6448
+ },
+ "180": {
+  "who": "BOTTLES",
+  "name": "BOTTLES_TALKING_1",
+  "text": "heh huh",
+  "base": 516144,
+  "frames": 4512
+ },
+ "188": {
+  "who": "BOTTLES",
+  "name": "BOTTLES_TALKING_2",
+  "text": "heh huh",
+  "base": 526752,
+  "frames": 1952
+ },
+ "189": {
+  "who": "BOTTLES",
+  "name": "BOTTLES_TALKING_3",
+  "text": "oh eh",
+  "base": 527856,
+  "frames": 1968
+ },
+ "221": {
+  "who": "JINJO",
+  "name": "JINJO_TALKING",
+  "text": "oh eh",
+  "base": 593408,
+  "frames": 3536
+ },
+ "223": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_TALKING_1",
+  "text": "ha huh",
+  "base": 597848,
+  "frames": 5392
+ },
+ "224": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_TALKING_2",
+  "text": "guh huh",
+  "base": 600888,
+  "frames": 6416
+ },
+ "225": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_TALKING_3",
+  "text": "ah hah",
+  "base": 604504,
+  "frames": 2064
+ },
+ "226": {
+  "who": "KAZOOIE",
+  "name": "KAZOOIE_TALKING_4",
+  "text": "buh duh",
+  "base": 605672,
+  "frames": 2064
+ },
+ "232": {
+  "who": "TOOTY",
+  "name": "TOOTY_TALKING_1",
+  "text": "guh huh",
+  "base": 613680,
+  "frames": 3504
+ },
+ "233": {
+  "who": "TOOTY",
+  "name": "TOOTY_TALKING_2",
+  "text": "ah hah",
+  "base": 615656,
+  "frames": 3936
+ },
+ "234": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_LAUGH_1",
+  "text": "laugh",
+  "base": 617872,
+  "frames": 31952
+ },
+ "235": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_LAUGH_2",
+  "text": "laugh",
+  "base": 635848,
+  "frames": 48400
+ },
+ "236": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_TALKING_1",
+  "text": "heh huh",
+  "base": 663080,
+  "frames": 6256
+ },
+ "237": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_TALKING_2",
+  "text": "oh eh",
+  "base": 666600,
+  "frames": 5328
+ },
+ "238": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_TALKING_3",
+  "text": "wuh huh",
+  "base": 669600,
+  "frames": 8272
+ },
+ "240": {
+  "who": "CHEATO",
+  "name": "CHEATO_IDLE_1",
+  "text": "idle",
+  "base": 675824,
+  "frames": 9200
+ },
+ "241": {
+  "who": "CHEATO",
+  "name": "CHEATO_IDLE_2",
+  "text": "idle",
+  "base": 681000,
+  "frames": 2080
+ },
+ "290": {
+  "who": "TOOTY",
+  "name": "TOOTY_TALKING_3",
+  "text": "buh duh",
+  "base": 811328,
+  "frames": 3376
+ },
+ "298": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_AH",
+  "text": "ah",
+  "base": 873656,
+  "frames": 2528
+ },
+ "304": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_ECHOING_CRY",
+  "text": "echoing cry",
+  "base": 901040,
+  "frames": 30416
+ },
+ "305": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_WEEEGH",
+  "text": "weegh",
+  "base": 918152,
+  "frames": 7664
+ },
+ "306": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_YOW",
+  "text": "yow",
+  "base": 922464,
+  "frames": 4000
+ },
+ "307": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_OHW",
+  "text": "ohw",
+  "base": 924720,
+  "frames": 3744
+ },
+ "322": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_LAUGH_3",
+  "text": "laugh",
+  "base": 964336,
+  "frames": 18736
+ },
+ "326": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_SPELL_ATTACK_1",
+  "text": "spell attack",
+  "base": 981096,
+  "frames": 8032
+ },
+ "327": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_SPELL_ATTACK_2",
+  "text": "spell attack",
+  "base": 985616,
+  "frames": 11232
+ },
+ "329": {
+  "who": "CHEATO",
+  "name": "CHEATO_TALKING_1",
+  "text": "ah hah",
+  "base": 996232,
+  "frames": 6016
+ },
+ "330": {
+  "who": "CHEATO",
+  "name": "CHEATO_TALKING_2",
+  "text": "buh duh",
+  "base": 999616,
+  "frames": 4592
+ },
+ "331": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_LAUGH_4",
+  "text": "laugh",
+  "base": 1002200,
+  "frames": 20336
+ },
+ "332": {
+  "who": "BRENTILDA",
+  "name": "BRENTILDA_TALKING",
+  "text": "heh huh",
+  "base": 1013640,
+  "frames": 6080
+ },
+ "333": {
+  "who": "BANJO",
+  "name": "BANJO_FREEZING",
+  "text": "freezing",
+  "base": 1017064,
+  "frames": 8416
+ },
+ "355": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_WILD_SCREAM",
+  "text": "wild scream",
+  "base": 1050392,
+  "frames": 6128
+ },
+ "377": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_DAMAGE",
+  "text": "damage",
+  "base": 1063864,
+  "frames": 6576
+ },
+ "380": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_FALLING_OFF_1",
+  "text": "falling off",
+  "base": 901040,
+  "frames": 30416
+ },
+ "381": {
+  "who": "GRUNTY",
+  "name": "GRUNTY_FALLING_OFF_2",
+  "text": "falling off",
+  "base": 1075576,
+  "frames": 27872
+ },
+ "382": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_01",
+  "text": "transformation",
+  "base": 788264,
+  "frames": 3680
+ },
+ "383": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_02",
+  "text": "transformation",
+  "base": 784496,
+  "frames": 6688
+ },
+ "384": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_03",
+  "text": "transformation",
+  "base": 554952,
+  "frames": 5504
+ },
+ "385": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_04",
+  "text": "transformation",
+  "base": 784496,
+  "frames": 6688
+ },
+ "386": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_05",
+  "text": "transformation",
+  "base": 788264,
+  "frames": 3680
+ },
+ "387": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_06",
+  "text": "transformation",
+  "base": 784496,
+  "frames": 6688
+ },
+ "388": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_07",
+  "text": "transformation",
+  "base": 554952,
+  "frames": 5504
+ },
+ "389": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_08",
+  "text": "transformation",
+  "base": 784496,
+  "frames": 6688
+ },
+ "390": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_09",
+  "text": "transformation",
+  "base": 788264,
+  "frames": 3680
+ },
+ "391": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_10",
+  "text": "transformation",
+  "base": 784496,
+  "frames": 6688
+ },
+ "392": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_11",
+  "text": "transformation",
+  "base": 554952,
+  "frames": 5504
+ },
+ "393": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_12",
+  "text": "transformation",
+  "base": 784496,
+  "frames": 6688
+ },
+ "394": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_13",
+  "text": "transformation",
+  "base": 479080,
+  "frames": 6368
+ },
+ "395": {
+  "who": "MUMBO",
+  "name": "MUMBO_TRANSFORMATION_14",
+  "text": "transformation",
+  "base": 784496,
+  "frames": 6688
+ }
+}

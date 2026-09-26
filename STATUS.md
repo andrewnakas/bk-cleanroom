@@ -33,12 +33,20 @@
 - The 1.9 TB D: drive dropped out for 80 s at ~05:45; the repo is pushed to GitHub since.
 - Port 8097 is used by another session's server: use your own port for local tests.
 
+## Done since publishing (2026-09-26 afternoon)
+- Readable text: both sprite fonts re-typeset (Lilita One / Luckiest Guy, fitted to each glyph's advance width); title sign, copyright line, GAME OVER, THE END, PRESS START re-lettered in model space and baked into their tiles (`modelgeo.py`, `project.py`, `logos.py`).
+- Faces: eye briefs for Banjo, Kazooie, the transformations, Tooty, Bottles, Jinjos, Klungo, Cheato, Grunty, Mumbo (`faces.py`).
+- Pictures: 43 dialog portraits rendered from the characters' own models with our textures (`portraits.py`); 20 item/object portraits keep the colour grid (their colours come from combiner prim/env colours, not rendered yet).
+- Sprites: colour grids are alpha-weighted (brighter, correct HUD icon colours); I4/I8 sprites keep a 2-bit intensity outline (their shape).
+- Voices: 96 placeholder lines (Piper TTS, pitched per character, fitted to the slot) for Banjo, Kazooie, Mumbo, Grunty, Bottles, Tooty, Jinjos, Cheato, Brentilda, Vile (`voices.py`, WAVs in `games/bk/voices`). Practice pack: `D:/n64work/bk/practice` (never publish).
+
 ## Next
-1. Readable text: fonts (sprites 0x6EB.. and dialog font), title logo, HUD digits, text-bearing textures (ON VACATION, R.I.P, note-door numbers, BK signs).
-2. Faces: Banjo/Kazooie/Tooty/Bottles/Mumbo/Grunty eyes and mouths (model textures) via facepaint briefs.
-3. Sprites/pictures: collectibles and HUD icons (notes, jiggies, honeycombs, eggs, feathers), portraits.
-4. Voices: BK has no speech, only "gibberish" voice samples in the SFX bank; placeholders = resynthesis for now; practice pack later.
+1. Object portraits and item pictures with combiner colours (render prim/env colours).
+2. Other text-bearing textures (R.I.P., ON VACATION, SKI-1000, note-door numbers, BK signs, level entry signs 0x563).
+3. Mumbo token face, Jiggy picture, Rare intro logo (0x3A7).
+4. A native gameplay check further into Spiral Mountain (scripted input did not move Banjo out of the exit cutscene yet).
 
 ## For the morning
 - Play https://andrewnakas.github.io/bk-cleanroom/ in a real browser (Chrome/Edge). Keys: arrows, X jump, C attack, Z crouch, Enter start.
-- Text is not readable yet (fonts are coarse colour grids); that is the current work item.
+- Record voices: open `D:/n64work/bk/practice/SCRIPT.txt`; per character there is a call-and-response track (`BANJO.wav` etc.). Save each take as `games/bk/voices/<id>.wav`, then `python -m games.bk.make_clean D:/n64work/bk/pristine D:/n64work/bk/clean D:/n64work/bk/spec` and `sh tools/publish.sh`.
+- Look at: title screen, dialog portraits, eyes in the intro close-ups.
