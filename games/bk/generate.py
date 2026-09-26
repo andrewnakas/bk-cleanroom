@@ -159,8 +159,9 @@ def load_spec(spec):
 
 def register_hooks():
     if not HOOKS:
-        from games.bk import logos, text
+        from games.bk import faces, logos, text
         HOOKS.append(text.hook)
+        HOOKS.append(faces.hook)
         MODEL_HOOKS.append(logos.sign_textures)
 
 

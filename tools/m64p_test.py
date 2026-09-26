@@ -35,7 +35,7 @@ def main(argv):
     if script:
         env["M64P_SCRIPT"] = os.path.abspath(script)
         extra = ["--input", "mupen64plus-input-script.dll"]
-    r = subprocess.run([os.path.join(M64P, "mupen64plus-ui-console.exe"), "--noosd", "--windowed", "--resolution", "320x240",
+    r = subprocess.run([os.path.join(M64P, "mupen64plus-ui-console.exe"), "--noosd", "--windowed", "--resolution", os.environ.get("M64P_RES", "320x240"),
                         "--nospeed", "--audio", "dummy", "--sshotdir", shots, "--testshots", frames] + extra + [
                         "--configdir", M64P, "--datadir", M64P, os.path.abspath(rom)],
                        cwd=M64P, capture_output=True, text=True, timeout=int(os.environ.get("M64P_TIMEOUT", "240")), env=env)
