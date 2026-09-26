@@ -126,6 +126,7 @@ BOARD_SIGNS = {
 for _k, _n in zip(range(0x301, 0x306), ("5", "10", "15", "20", "25")):     # Mumbo token signs
     BOARD_SIGNS[_k] = [((0,), [(_n, (0.5, 0.3), 0.45)], (230, 40, 40, 255), (40, 60, 220, 255))]
 FACTS = {}     # set by generate: texture key -> fact
+TEXSPACE = {0x2F5: False, 0x2F6: False, 0x2F9: False}   # wrapped on 3D shapes: draw in texture space (value: flip)
 
 
 def _board(uid, idx, W, H):
@@ -149,7 +150,7 @@ def board_signs(uid, d):
     rs = {r["i"]: r for r in F.model_textures(d)}
     for idx, lines, fill, outline in BOARD_SIGNS[uid]:
         lo, hi = _box(d, set(idx))
-        flat = lo is None or not np.all(hi - lo > 4)
+        flat = lo is None or not np.all(hi - lo > 4) or uid in TEXSPACE
         if flat:
             # not laid out in the XY plane: draw in texture space, tiles side by side, t running upward
             W = sum(rs[i]["w"] for i in idx) * 4
@@ -157,7 +158,8 @@ def board_signs(uid, d):
             img = _board(uid, idx, W, H)
             img.alpha_composite(word_art(W, H, [(t, c, hf, fill, outline, False) for t, c, hf in lines],
                                          face="LilitaOne-Regular.ttf"))
-            img = img.transpose(Image.FLIP_TOP_BOTTOM)
+            if TEXSPACE.get(uid, True):
+                img = img.transpose(Image.FLIP_TOP_BOTTOM)
             x = 0
             for i in idx:
                 w = rs[i]["w"] * 4

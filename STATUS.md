@@ -37,7 +37,8 @@
 - Readable text: both sprite fonts re-typeset (Lilita One / Luckiest Guy, fitted to each glyph's advance width); title sign, copyright line, GAME OVER, THE END, PRESS START re-lettered in model space and baked into their tiles (`modelgeo.py`, `project.py`, `logos.py`).
 - Faces: eye briefs for Banjo, Kazooie, the transformations, Tooty, Bottles, Jinjos, Klungo, Cheato, Grunty, Mumbo (`faces.py`).
 - Pictures: 53 dialog portraits rendered from the characters' and objects' own models with our textures (`portraits.py`); 10 (Jiggy, bullion, feathers, egg pillow, a few bad name matches) keep the colour grid: their colours come from combiner prim/env colours, which the renderer does not model yet.
-- Signs: level entry signs (9 worlds), ON VACATION, R.I.P., SKI-1000, Mumbo token numbers, the boot "RARE/WARE" plate.
+- Signs: level entry signs (9 worlds), ON VACATION, R.I.P., SKI-1000, Mumbo token numbers, the "BK" pole signs, the boot "RARE/WARE" plate.
+- Renderer: lit models (G_LIGHTING) are shaded from their normals; Jiggy, bullion, feathers, egg pillow portraits now correct (57 of 61 portraits rendered).
 - CI textures are bound at palette+pixels offset in display lists (`modelgeo.py`); needed for faces/portraits.
 - Sprites: colour grids are alpha-weighted (brighter, correct HUD icon colours); I4/I8 sprites keep a 2-bit intensity outline (their shape).
 - Voices: 96 placeholder lines (Piper TTS, pitched per character, fitted to the slot) for Banjo, Kazooie, Mumbo, Grunty, Bottles, Tooty, Jinjos, Cheato, Brentilda, Vile (`voices.py`, WAVs in `games/bk/voices`). Practice pack: `D:/n64work/bk/practice` (never publish).
