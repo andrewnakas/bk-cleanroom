@@ -20,14 +20,25 @@
 - **Asset numbering differs v1.0 vs v1.1**: v1.1 (like PAL) packs the dialog/quiz range that v1.0 spreads over 100-slot blocks; IDs < 0x8A3 agree, level models/midi are +0x7A2 in v1.0 (e.g. music base 0x1516 vs 0xD74). Plan: keep the decomp code unmodified and renumber the asset table into v1.0 IDs, with the map derived by aligning our v1.0 build against retail v1.1 code/data (`games/bk/idmap.py`, dirty room) plus the decomp's 299 `VER_SELECT(v1.0, PAL)` pairs. (A first try that used `VER_SELECT`'s PAL column failed: the PAL build is only partly matching; e.g. `mapModel.c` has no PAL IDs.)
 - Debug tools: `tools/m64p_state.py` (mupen64plus.dll via ctypes: live PC/EPC/BadVAddr, RDRAM dump, libultra thread list with symbols), `games/bk/funcdiff.py` (our functions vs retail v1.1, relocations masked).
 
-## Works
-- **2026-09-26 01:10: dirty build boots to the title screen** (v1.0 decomp code + v1.1 assets renumbered to v1.0 IDs, `games/bk/renumber.py`, map in `spec/asset_renumber.json`): N64 logo, Rare logo, intro cutscene, title, PRESS START (native mupen64plus shots).
-- v1.0's `parallel_readDMA` turns a size-0 read into a runaway DMA; v1.1 emptied font slot 0x6E9/0x6EA that v1.0 code loads (font 0). The asset builder must fill every empty slot the code can request (clean build: generated fonts).
-- Dirty build: v1.0 code + v1.1 assets -> `build/us.v10/banjo.us.v10.z64` links and compresses (code end 0xFDD348).
+## Works (2026-09-26 ~13:00)
+- **Published**: repo https://github.com/andrewnakas/bk-cleanroom (public) + Pages https://andrewnakas.github.io/bk-cleanroom/ (gh-pages = site: EmulatorJS 4.2.3 + mupen64plus-next core with its ROM-DB entry "Banjo-Kazooie (U) (V1.0) [b1]" pointed at our ROM's MD5 for EEPROM 4 KB).
+- **Clean ROM**: decomp v1.0 code + generated assets (4868 model textures, 1464 sprite frames: colour grid + detail + dither + alpha outline, our own CI palettes, mip chains) + resynthesised samples (467 wave tables, our own 4-predictor books). `games/bk/make_clean.py <pristine> <clean> games/bk/spec`.
+- **Taint: 0 failing** (texture regions raw + decoded RGBA with a texel-aware low-information filter; PCM of both banks).
+- Verified natively (mupen64plus, scripted input): N64 logo, Rare logo, intro, title, file select, Bottles/Tooty intro, Banjo's house, Spiral Mountain. Verified in headless Edge (GPU): boots through the intro.
+- Dirty build (retail assets renumbered) also boots to the title: `games/bk/dirty_assets.py`.
+
+## Hard-won facts
+- v1.0 code + v1.1 table: v1.1 renumbered IDs (map in `spec/asset_renumber.json`, derived by `idmap.py`), and v1.1 emptied font slots 0x6E9/0x6EA that v1.0 loads; v1.0's `parallel_readDMA` turns a size-0 read into a runaway DMA (fills RAM). `generate.V10_FILL` fills them.
+- Model texture list `size` counts from the list header (not the data start).
+- The 1.9 TB D: drive dropped out for 80 s at ~05:45; the repo is pushed to GitHub since.
+- Port 8097 is used by another session's server: use your own port for local tests.
 
 ## Next
-- Boot test (native mupen64plus, `tools/m64p_test.py`).
-- Census of assets (models' textures, sprites, midi, dialog), spec, generate, taint.
+1. Readable text: fonts (sprites 0x6EB.. and dialog font), title logo, HUD digits, text-bearing textures (ON VACATION, R.I.P, note-door numbers, BK signs).
+2. Faces: Banjo/Kazooie/Tooty/Bottles/Mumbo/Grunty eyes and mouths (model textures) via facepaint briefs.
+3. Sprites/pictures: collectibles and HUD icons (notes, jiggies, honeycombs, eggs, feathers), portraits.
+4. Voices: BK has no speech, only "gibberish" voice samples in the SFX bank; placeholders = resynthesis for now; practice pack later.
 
 ## For the morning
-- (nothing yet)
+- Play https://andrewnakas.github.io/bk-cleanroom/ in a real browser (Chrome/Edge). Keys: arrows, X jump, C attack, Z crouch, Enter start.
+- Text is not readable yet (fonts are coarse colour grids); that is the current work item.
