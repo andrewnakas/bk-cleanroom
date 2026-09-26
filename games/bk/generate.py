@@ -83,13 +83,21 @@ def pixels(key, fact):
     return dither(key, rgba)
 
 
+MODEL_HOOKS = []    # functions (uid, model bytes) -> {texture index: RGBA} or None (logos.py)
+
+
 def gen_model(uid, d, facts):
+    whole = {}
+    for mh in MODEL_HOOKS:
+        whole = mh(uid, bytes(d)) or {}
+        if whole:
+            break
     for r in F.model_textures(d):
         key = f"m{uid:x}.{r['i']}"
         fact = facts.get(key)
         if fact is None:
             continue
-        rgba = pixels(key, fact)
+        rgba = whole[r["i"]] if r["i"] in whole else pixels(key, fact)
         pal, pix = encode(rgba, r["fmt"], r["siz"])
         if pal:
             a, n = r["pal"]
@@ -151,8 +159,9 @@ def load_spec(spec):
 
 def register_hooks():
     if not HOOKS:
-        from games.bk import text
+        from games.bk import logos, text
         HOOKS.append(text.hook)
+        MODEL_HOOKS.append(logos.sign_textures)
 
 
 def build_entries(spec):
