@@ -3,7 +3,7 @@ C library does not build on Windows).
 
 Layout: u32 slot count, u32 0xFFFFFFFF, then count x (u32 offset, u8 0, u8 compressed, u16 flags),
 then data. The last slot is a terminator (flags 4) whose offset is the data size.
-Compressed assets: 0x11 0x72, u32 BE size, raw deflate, padded with 0xAA to 8 bytes.
+Compressed assets: 0x11 0x72, u32 BE size, raw deflate (Rare's gzip 1.2.4), padded with 0xAA to 8 bytes.
 Segment of each asset (bk_asset_tool's classification):
   0 animation, 1/3 model or sprite, 2 level setup, 4 dialog/quiz/demo, 5 model, 6 midi, else binary
 """
@@ -21,11 +21,30 @@ def unzip(b):
     return out
 
 
-def zip_(b, level=9):
-    c = zlib.compressobj(level, zlib.DEFLATED, -15, 9)
-    body = c.compress(bytes(b)) + c.flush()
-    out = b"\x11\x72" + struct.pack(">I", len(b)) + body
-    return out + b"\xAA" * (-len(out) % PAD)
+_RZ = None
+
+
+def _rarezip():
+    """Rare's compressor (gzip 1.2.4 deflate, from the decomp's rarezip tool) built as a DLL:
+    the game's inflate uses a fixed-size Huffman table buffer, and zlib's streams overflow it."""
+    global _RZ
+    if _RZ is None:
+        import ctypes
+        import os
+        _RZ = ctypes.CDLL(os.path.join(os.path.dirname(__file__), "..", "..", "tools", "rarezip", "rarezip.dll"))
+        _RZ.bk_zip.restype = ctypes.c_size_t
+        _RZ.bk_zip.argtypes = [ctypes.c_char_p, ctypes.c_size_t, ctypes.c_char_p, ctypes.c_size_t]
+    return _RZ
+
+
+def zip_(b, pad=True):
+    import ctypes
+    b = bytes(b)
+    cap = len(b) + len(b) // 8 + 0x1000
+    out = ctypes.create_string_buffer(cap)
+    n = _rarezip().bk_zip(b, len(b), out, cap)
+    out = out.raw[:n]
+    return out + bytes([0xAA]) * (-len(out) % PAD) if pad else out
 
 
 class Entry:

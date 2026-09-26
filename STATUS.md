@@ -16,7 +16,13 @@
   - Submodules must be LF too (`git submodule foreach 'git config core.autocrlf false; git rm --cached -r .; git reset --hard'`).
 - **Kept as code** (not art): RSP microcode (F3DEX/L3DEX fifo, n_aspMain), IPL3 boot + font, hand-written asm. Same as MK64.
 
+- **Compression must be Rare's own** (gzip 1.2.4 deflate): the game's inflate uses a fixed Huffman-table buffer at 0x803FBE00 and zlib streams crash `huft_build`. `tools/rarezip/rarezip.dll` = the decomp's rarezip C built with zig; `assetfs.zip_` reproduces all 3038 retail compressed assets byte-for-byte. Code+data streams of an overlay are packed with no gap (the boot reads data right after the code stream).
+- **Asset numbering differs v1.0 vs v1.1**: v1.1 (like PAL) packs the dialog/quiz range that v1.0 spreads over 100-slot blocks; IDs < 0x8A3 agree, level models/midi are +0x7A2 in v1.0 (e.g. music base 0x1516 vs 0xD74). Plan: keep the decomp code unmodified and renumber the asset table into v1.0 IDs, with the map derived by aligning our v1.0 build against retail v1.1 code/data (`games/bk/idmap.py`, dirty room) plus the decomp's 299 `VER_SELECT(v1.0, PAL)` pairs. (A first try that used `VER_SELECT`'s PAL column failed: the PAL build is only partly matching; e.g. `mapModel.c` has no PAL IDs.)
+- Debug tools: `tools/m64p_state.py` (mupen64plus.dll via ctypes: live PC/EPC/BadVAddr, RDRAM dump, libultra thread list with symbols), `games/bk/funcdiff.py` (our functions vs retail v1.1, relocations masked).
+
 ## Works
+- **2026-09-26 01:10: dirty build boots to the title screen** (v1.0 decomp code + v1.1 assets renumbered to v1.0 IDs, `games/bk/renumber.py`, map in `spec/asset_renumber.json`): N64 logo, Rare logo, intro cutscene, title, PRESS START (native mupen64plus shots).
+- v1.0's `parallel_readDMA` turns a size-0 read into a runaway DMA; v1.1 emptied font slot 0x6E9/0x6EA that v1.0 code loads (font 0). The asset builder must fill every empty slot the code can request (clean build: generated fonts).
 - Dirty build: v1.0 code + v1.1 assets -> `build/us.v10/banjo.us.v10.z64` links and compresses (code end 0xFDD348).
 
 ## Next

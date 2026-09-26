@@ -129,7 +129,7 @@ def main(argv):
     core1_code_crc = code_crc[i]
     rz = []
     for c, d in zip(code, data):
-        b = zip_(c) + zip_(d)
+        b = zip_(c, pad=False) + zip_(d, pad=False)  # boot reads data right after the code stream
         rz.append(b + b"\0" * (-len(b) % 16))
     names = list(OVERLAYS)
     names[3], names[4] = names[4], names[3]
