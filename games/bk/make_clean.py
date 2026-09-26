@@ -1,9 +1,8 @@
 """CLEAN ROOM: build the clean ROM.
 
-    python -m games.bk.make_clean <dirty tree> <clean tree> <spec dir> [--skip-audio]
-1. clean tree = the dirty tree's code (decomp source, splat's linker script and hand-written asm,
-   kept code bins: IPL3, RSP microcode) without any retail asset data (assets, soundfonts,
-   decompressed/baseroms are removed).
+    python -m games.bk.make_clean <pristine decomp> <clean tree> <spec dir> [--skip-audio]
+1. clean tree = the pristine decomp + tree_patches + spec/code (splat's linker script, hand-written
+   asm, kept code bins: IPL3, RSP microcode). No retail asset data is involved.
 2. assets.bin from the spec (generate.py), soundfonts from the spec (audio.py).
 3. build_rom -> <clean>/build/us.v10/banjo.us.v10.z64
 """
@@ -16,13 +15,18 @@ import time
 from games.bk import audio, generate
 
 RETAIL = ["decompressed.us.v10.z64", "baserom.us.v10.z64", "assets.v11.bin", "assets.v10num.bin",
-          "bin/assets.bin", "bin/soundfont1ctl.bin", "bin/soundfont1tbl.bin", "bin/soundfont2ctl.bin",
-          "bin/soundfont2tbl.bin", "assets"]
+          "bin/assets.bin", "assets"]      # never present in a tree made from the pristine decomp
 
 
-def make_tree(dirty, clean):
-    if not os.path.exists(clean):
-        shutil.copytree(dirty, clean, ignore=shutil.ignore_patterns("*.z64", "assets*.bin", "*.elf"))
+def make_tree(pristine, clean, spec):
+    if not os.path.exists(os.path.join(clean, "Makefile")):
+        shutil.copytree(pristine, clean, ignore=shutil.ignore_patterns(".git", "*.z64"), dirs_exist_ok=True)
+    code = os.path.join(spec, "code")
+    if not os.path.exists(code):
+        code = os.path.join(os.path.dirname(os.path.abspath(__file__)), "spec", "code")
+    shutil.copytree(code, clean, dirs_exist_ok=True)
+    from games.bk import tree_patches
+    tree_patches.apply(clean)
     for r in RETAIL:
         p = os.path.join(clean, r)
         if os.path.isdir(p):
@@ -37,9 +41,9 @@ def make_tree(dirty, clean):
 
 
 def main(argv):
-    dirty, clean, spec = argv[1], argv[2], argv[3]
+    pristine, clean, spec = argv[1], argv[2], argv[3]
     t = time.time()
-    make_tree(dirty, clean)
+    make_tree(pristine, clean, spec)
     es = generate.build_entries(spec)
     out = generate.to_v10(es, spec)
     from games.bk import assetfs

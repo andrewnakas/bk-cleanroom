@@ -134,7 +134,8 @@ def gen_sprite(uid, d, facts):
 
 def load_spec(spec):
     meta = json.load(open(os.path.join(spec, "kept_assets.json")))
-    blob = open(os.path.join(spec, "kept_assets.bin"), "rb").read()
+    kb = os.path.join(spec, "kept_assets.bin")
+    blob = open(kb, "rb").read() if os.path.exists(kb) else gzip.open(kb + ".gz").read()
     with gzip.open(os.path.join(spec, "textures.json.gz"), "rt") as f:
         facts = json.load(f)
     return meta, blob, facts
