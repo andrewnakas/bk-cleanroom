@@ -76,6 +76,14 @@ def dither(key, rgba, amp=10):
 
 def pixels(key, fact):
     rgba = from_digest(key, fact)
+    if "ishape2" in fact:                     # intensity sprite: our own soft shape from the kept outline
+        from cleanroom.decomp.gen import unpack_alpha2
+        from PIL import ImageFilter
+        v = unpack_alpha2(fact["ishape2"], fact["w"], fact["h"])
+        v = np.asarray(Image.fromarray(v.clip(0, 255).astype(np.uint8)).filter(ImageFilter.GaussianBlur(0.6)), np.float32)
+        tint = rgba[..., :3].astype(np.float32).mean(-1, keepdims=True) / 255.0
+        rgba = rgba.copy()
+        rgba[..., :3] = np.clip(v[..., None] * (0.6 + 0.4 * tint) * 1.15, 0, 255).astype(np.uint8)
     for hook in HOOKS:
         r = hook(key, fact, rgba)
         if r is not None:
