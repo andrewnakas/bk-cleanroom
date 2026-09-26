@@ -48,6 +48,11 @@
   window.EJS_color = "#d99a2b";
   window.EJS_defaultControls = { 0: P1, 1: {}, 2: {}, 3: {} };
   window.EJS_defaultOptions = { "mupen64plus-rdp-plugin": "gliden64", "mupen64plus-rsp-plugin": "hle" };
+  // dev: ?opts=key:value;key:value overrides core options
+  for (const kv of (q.get("opts") || "").split(";").filter(Boolean)) {
+    const i = kv.indexOf(":");
+    window.EJS_defaultOptions["mupen64plus-" + kv.slice(0, i)] = kv.slice(i + 1);
+  }
 
   // ---- dev hooks: ?dump=5,10 (screenshots to console), ?keys=t:id:dur[:val],... ----
   const log = (m) => console.log(m);

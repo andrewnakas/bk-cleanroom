@@ -8,4 +8,5 @@ python ports/ejs/patch_core.py $ROM C:/Users/andre/n64work/mk64/emu/cores_orig /
 cd /d/n64work/bk/site && git rm -q -r --cached . >/dev/null 2>&1 || true
 cd /d/n64work/bk-cleanroom && python ports/ejs/make_site.py $ROM C:/Users/andre/n64work/mk64/emu/ejs /d/n64work/bk/site
 cp /d/n64work/bk/emu/cores/*.data /d/n64work/bk/site/data/cores/
-cd /d/n64work/bk/site && git add -A && git commit -qm "Site update: ${1:-rebuild}" && git push -q -f origin gh-pages && echo "pushed gh-pages"
+# one orphan commit per deploy: the Pages builder chokes on a long history of 16 MB ROMs
+cd /d/n64work/bk/site && git checkout -q --orphan tmp && git add -A && git commit -qm "Site: ${1:-rebuild}"   && git branch -D gh-pages -q 2>/dev/null; git branch -m gh-pages && git push -q -f origin gh-pages && git gc -q --prune=now   && gh api -X POST repos/andrewnakas/bk-cleanroom/pages/builds -q .status && echo "pushed gh-pages"

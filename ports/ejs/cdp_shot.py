@@ -60,7 +60,9 @@ def main():
     args = [EDGE, "--headless=new", f"--user-data-dir={prof}", f"--remote-debugging-port={a.port}", "--remote-allow-origins=*",
             "--no-first-run", "--autoplay-policy=no-user-gesture-required", "--window-size=960,760",
             "--disable-renderer-backgrounding", "--disable-background-timer-throttling",
-            "--disable-backgrounding-occluded-windows", "--disable-features=CalculateNativeWinOcclusion", "--mute-audio"]
+            "--disable-backgrounding-occluded-windows", "--disable-features=CalculateNativeWinOcclusion"]
+    if os.environ.get("CDP_MUTE"):
+        args.append("--mute-audio")
     if a.webgl:
         args += ["--enable-unsafe-swiftshader", "--use-angle=swiftshader", "--ignore-gpu-blocklist"]
     if a.gpu:
@@ -86,6 +88,15 @@ def main():
 
         send("Runtime.enable")
         send("Page.enable")
+        # headless pages can look hidden/unfocused and EmulatorJS then pauses: pin them visible + focused
+        send("Emulation.setFocusEmulationEnabled", enabled=True)
+        send("Page.addScriptToEvaluateOnNewDocument", source=(
+            "Object.defineProperty(document,'hidden',{get:()=>false});"
+            "Object.defineProperty(document,'visibilityState',{get:()=>'visible'});"
+            "document.hasFocus=()=>true;"
+            "for (const t of ['visibilitychange','blur','pagehide','freeze'])"
+            "{window.addEventListener(t,e=>e.stopImmediatePropagation(),true);"
+            "document.addEventListener(t,e=>e.stopImmediatePropagation(),true);}"))
         send("Page.navigate", url=a.url)
         t_start = time.time()
         t0 = None
